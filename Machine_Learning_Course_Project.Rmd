@@ -7,9 +7,11 @@ output: html_document
 
 ## Statement of problem
 
-One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively.In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants.
+One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively.In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants and 160 measurements were taken.
 
- 
+## Executive summary
+
+A random forest was tuned to the data and was able to generate predictions with an out-of-bag error rate of 99.3%. This model was then used to generate 20 predictions for the Submission portion of the Practical Machine Learning Course Project with 100% accuracy.
 
 ## Data source
 
@@ -160,11 +162,6 @@ Fit model over the tuning parameters.
 ```{r}
 method <- "rf"
 system.time(trainingModel <- train(classe ~ ., data=DTrainCS, method=method))
-```
-
-Stop the clusters.
-
-```{r}
 stopCluster(cl)
 ```
 
@@ -218,12 +215,12 @@ subset(DTest, select=names(DTest)[grep("belt|[^(fore)]arm|dumbbell|forearm", nam
 
 ## Submission to Coursera
 
-Write submission files to `predictionAssignment_files/answers`.
+Write submission files to `~/Machine Learning`.
 
 ```{r}
 pml_write_files = function(x){
   n = length(x)
-  path <- "predictionAssignment_files/answers"
+  path <- "~/Machine Learning"
   for(i in 1:n){
     filename = paste0("problem_id_",i,".txt")
     write.table(x[i],file=file.path(path, filename),quote=FALSE,row.names=FALSE,col.names=FALSE)
@@ -231,3 +228,7 @@ pml_write_files = function(x){
 }
 pml_write_files(hat)
 ```
+
+## Conclusion
+
+The random forest learner is well suited to generating accurate predictions for this specific dataset. Applying the random forest model to predict the 20 test cases from the Submission portion of the Course Project yielded a 100% accuracy.
